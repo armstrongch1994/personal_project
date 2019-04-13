@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {Login, Signup, UserHome, BasicHome, PhotoGallery} from './components'
 import {me} from './store'
 
 /**
@@ -14,21 +14,11 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
-
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route exact path="/" component={BasicHome} />
+        <Route path="/home" component={BasicHome} />
+        <Route path="/photos" component={PhotoGallery} />
       </Switch>
     )
   }
@@ -64,3 +54,23 @@ Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }
+
+/**
+ * This goes right after render before return 
+ *     const {isLoggedIn} = this.props
+
+ * original switch statement 
+ *   Routes placed here are available to all visitors
+ <Route path="/login" component={Login} />
+ <Route path="/signup" component={Signup} />
+ {isLoggedIn && (
+   <Switch>
+     Routes placed here are only available after logging in 
+     <Route path="/home" component={UserHome} />
+   </Switch>
+ )}
+ Displays our Login component as a fallback 
+ <Route component={Login} />
+
+
+*/

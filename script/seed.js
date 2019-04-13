@@ -2,7 +2,7 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
-
+const {Photo} = require('../server/db/models')
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -12,7 +12,13 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
+  const photos = await Promise.all([
+    Photo.create({imageUrl: 'http://placehold.it/130x100', caption: 'image 1'}),
+    Photo.create({imageUrl: 'http://placehold.it/130x100', caption: 'image 2'})
+  ])
+
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${photos.length} photos`)
   console.log(`seeded successfully`)
 }
 
@@ -42,3 +48,7 @@ if (module === require.main) {
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
 module.exports = seed
+
+/**
+ * http://placehold.it/130x100
+ */
